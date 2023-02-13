@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Python3从Kafka消费并处理PB格式数据 | MissionOne</title>
+    <meta name="generator" content="VuePress 1.9.7">
+    
+    <meta name="description" content="只有一个Mission">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    
+    <link rel="preload" href="/missionOne/assets/css/0.styles.934ed93a.css" as="style"><link rel="preload" href="/missionOne/assets/js/app.d1f3ab04.js" as="script"><link rel="preload" href="/missionOne/assets/js/3.4a4ab4e6.js" as="script"><link rel="preload" href="/missionOne/assets/js/1.6a874a38.js" as="script"><link rel="preload" href="/missionOne/assets/js/16.666cdc7d.js" as="script"><link rel="prefetch" href="/missionOne/assets/js/10.1b3e5823.js"><link rel="prefetch" href="/missionOne/assets/js/11.cda5caec.js"><link rel="prefetch" href="/missionOne/assets/js/12.7496d364.js"><link rel="prefetch" href="/missionOne/assets/js/13.1b4fc967.js"><link rel="prefetch" href="/missionOne/assets/js/14.5cfa31bb.js"><link rel="prefetch" href="/missionOne/assets/js/15.87b75c2d.js"><link rel="prefetch" href="/missionOne/assets/js/17.1ef2914a.js"><link rel="prefetch" href="/missionOne/assets/js/18.a0a9066e.js"><link rel="prefetch" href="/missionOne/assets/js/19.73fb5ef8.js"><link rel="prefetch" href="/missionOne/assets/js/20.1179fa70.js"><link rel="prefetch" href="/missionOne/assets/js/21.05f27101.js"><link rel="prefetch" href="/missionOne/assets/js/22.f418beee.js"><link rel="prefetch" href="/missionOne/assets/js/4.e8a2ffb5.js"><link rel="prefetch" href="/missionOne/assets/js/5.c6954da7.js"><link rel="prefetch" href="/missionOne/assets/js/6.b855b88f.js"><link rel="prefetch" href="/missionOne/assets/js/7.9389f109.js"><link rel="prefetch" href="/missionOne/assets/js/8.4e05e388.js"><link rel="prefetch" href="/missionOne/assets/js/9.21a8b884.js">
+    <link rel="stylesheet" href="/missionOne/assets/css/0.styles.934ed93a.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container" data-v-7dd95ae2><div data-v-7dd95ae2><div class="password-shadow password-wrapper-out" style="display:none;" data-v-59e6cb88 data-v-7dd95ae2 data-v-7dd95ae2><h3 class="title" data-v-59e6cb88>MissionOne</h3> <p class="description" data-v-59e6cb88>只有一个Mission</p> <label id="box" class="inputBox" data-v-59e6cb88><input type="password" value="" data-v-59e6cb88> <span data-v-59e6cb88>Konck! Knock!</span> <button data-v-59e6cb88>OK</button></label> <div class="footer" data-v-59e6cb88><span data-v-59e6cb88><i class="iconfont reco-theme" data-v-59e6cb88></i> <a target="blank" href="https://vuepress-theme-reco.recoluan.com" data-v-59e6cb88>vuePress-theme-reco</a></span> <span data-v-59e6cb88><i class="iconfont reco-copyright" data-v-59e6cb88></i> <a data-v-59e6cb88><!---->
+          
+        <!---->
+        2023
+      </a></span></div></div> <div class="hide" data-v-7dd95ae2><header class="navbar" data-v-7dd95ae2><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/missionOne/" class="home-link router-link-active"><!----> <span class="site-name">MissionOne</span></a> <div class="links"><div class="color-picker"><a class="color-button"><i class="iconfont reco-color"></i></a> <div class="color-picker-menu" style="display:none;"><div class="mode-options"><h4 class="title">Choose mode</h4> <ul class="color-mode-options"><li class="dark">dark</li><li class="auto active">auto</li><li class="light">light</li></ul></div></div></div> <div class="search-box"><i class="iconfont reco-search"></i> <input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/missionOne/" class="nav-link"><i class="iconfont reco-home"></i>
+  首页
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="iconfont reco-category"></i>
+      分类
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/missionOne/categories/Kubernetes/" class="nav-link"><i class="undefined"></i>
+  Kubernetes
+</a></li><li class="dropdown-item"><!----> <a href="/missionOne/categories/Docker/" class="nav-link"><i class="undefined"></i>
+  Docker
+</a></li><li class="dropdown-item"><!----> <a href="/missionOne/categories/Python/" class="nav-link"><i class="undefined"></i>
+  Python
+</a></li><li class="dropdown-item"><!----> <a href="/missionOne/categories/Kubernetes常见问题/" class="nav-link"><i class="undefined"></i>
+  Kubernetes常见问题
+</a></li><li class="dropdown-item"><!----> <a href="/missionOne/categories/算法/" class="nav-link"><i class="undefined"></i>
+  算法
+</a></li><li class="dropdown-item"><!----> <a href="/missionOne/categories/面试/" class="nav-link"><i class="undefined"></i>
+  面试
+</a></li></ul></div></div><div class="nav-item"><a href="/missionOne/tag/" class="nav-link"><i class="iconfont reco-tag"></i>
+  标签
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="undefined"></i>
+      找到我
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="https://github.com/liyongzhezz" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="iconfont reco-github"></i>
+  Github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></div></div> <!----></nav></div></header> <div class="sidebar-mask" data-v-7dd95ae2></div> <aside class="sidebar" data-v-7dd95ae2><div class="personal-info-wrapper" data-v-1fad0c41 data-v-7dd95ae2><img src="/missionOne/avator.jpeg" alt="author-avatar" class="personal-img" data-v-1fad0c41> <!----> <div class="num" data-v-1fad0c41><div data-v-1fad0c41><h3 data-v-1fad0c41>12</h3> <h6 data-v-1fad0c41>文章</h6></div> <div data-v-1fad0c41><h3 data-v-1fad0c41>7</h3> <h6 data-v-1fad0c41>标签</h6></div></div> <ul class="social-links" data-v-1fad0c41></ul> <hr data-v-1fad0c41></div> <nav class="nav-links"><div class="nav-item"><a href="/missionOne/" class="nav-link"><i class="iconfont reco-home"></i>
+  首页
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="iconfont reco-category"></i>
+      分类
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/missionOne/categories/Kubernetes/" class="nav-link"><i class="undefined"></i>
+  Kubernetes
+</a></li><li class="dropdown-item"><!----> <a href="/missionOne/categories/Docker/" class="nav-link"><i class="undefined"></i>
+  Docker
+</a></li><li class="dropdown-item"><!----> <a href="/missionOne/categories/Python/" class="nav-link"><i class="undefined"></i>
+  Python
+</a></li><li class="dropdown-item"><!----> <a href="/missionOne/categories/Kubernetes常见问题/" class="nav-link"><i class="undefined"></i>
+  Kubernetes常见问题
+</a></li><li class="dropdown-item"><!----> <a href="/missionOne/categories/算法/" class="nav-link"><i class="undefined"></i>
+  算法
+</a></li><li class="dropdown-item"><!----> <a href="/missionOne/categories/面试/" class="nav-link"><i class="undefined"></i>
+  面试
+</a></li></ul></div></div><div class="nav-item"><a href="/missionOne/tag/" class="nav-link"><i class="iconfont reco-tag"></i>
+  标签
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="undefined"></i>
+      找到我
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="https://github.com/liyongzhezz" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="iconfont reco-github"></i>
+  Github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></div></div> <!----></nav> <ul class="sidebar-links"><li><section class="sidebar-group depth-0"><a href="/missionOne/" class="sidebar-heading clickable router-link-active"><span>欢迎访问</span> <!----></a> <ul class="sidebar-links sidebar-group-items"><li><a href="/missionOne/" aria-current="page" class="sidebar-link">博客简介</a></li></ul></section></li><li><section class="sidebar-group collapsable depth-0"><a href="/missionOne/Docker/docker的网络模式" class="sidebar-heading clickable"><span>Docker</span> <span class="arrow right"></span></a> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><a href="/missionOne/Kubernetes/kubelet垃圾回收机制" class="sidebar-heading clickable"><span>Kubernetes</span> <span class="arrow right"></span></a> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><a href="/missionOne/Kubernetes常见问题/kernel.pid_max引起的问题" class="sidebar-heading clickable"><span>Kubernetes常见问题</span> <span class="arrow right"></span></a> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><a href="/missionOne/算法/滑动窗口" class="sidebar-heading clickable"><span>算法</span> <span class="arrow right"></span></a> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><a href="/missionOne/Python/Python3从Kafka消费并处理PB格式数据" class="sidebar-heading clickable open"><span>Python</span> <span class="arrow down"></span></a> <ul class="sidebar-links sidebar-group-items"><li><a href="/missionOne/Python/python3从kafka消费并处理PB格式数据.html" class="active sidebar-link">Python3从Kafka消费并处理PB格式数据</a></li><li><a href="/missionOne/Python/python协程.html" class="sidebar-link">python协程</a></li></ul></section></li><li><section class="sidebar-group collapsable depth-0"><a href="/missionOne/面试/kubernetes面试题" class="sidebar-heading clickable"><span>面试</span> <span class="arrow right"></span></a> <!----></section></li></ul> </aside> <div class="password-shadow password-wrapper-in" style="display:none;" data-v-59e6cb88 data-v-7dd95ae2><h3 class="title" data-v-59e6cb88>Python3从Kafka消费并处理PB格式数据</h3> <!----> <label id="box" class="inputBox" data-v-59e6cb88><input type="password" value="" data-v-59e6cb88> <span data-v-59e6cb88>Konck! Knock!</span> <button data-v-59e6cb88>OK</button></label> <div class="footer" data-v-59e6cb88><span data-v-59e6cb88><i class="iconfont reco-theme" data-v-59e6cb88></i> <a target="blank" href="https://vuepress-theme-reco.recoluan.com" data-v-59e6cb88>vuePress-theme-reco</a></span> <span data-v-59e6cb88><i class="iconfont reco-copyright" data-v-59e6cb88></i> <a data-v-59e6cb88><!---->
+          
+        <!---->
+        2023
+      </a></span></div></div> <div data-v-7dd95ae2><div data-v-7dd95ae2><main class="page"><section style="display:;"><div class="page-title"><h1 class="title">Python3从Kafka消费并处理PB格式数据</h1> <div data-v-8a445198><i class="iconfont reco-account" data-v-8a445198><span data-v-8a445198>missionOne</span></i> <i class="iconfont reco-date" data-v-8a445198><span data-v-8a445198>2022/12/10</span></i> <!----> <i class="tags iconfont reco-tag" data-v-8a445198><span class="tag-item" data-v-8a445198>Python</span></i></div></div> <div class="theme-reco-content content__default"><h2 id="安装依赖"><a href="#安装依赖" class="header-anchor">#</a> 安装依赖</h2> <p>执行下面的命令安装<code>python-kafka</code>：</p> <div class="language-bash extra-class"><pre class="language-bash"><code>pip3 <span class="token function">install</span> kafka-python
+</code></pre></div><h2 id="消费kafka数据"><a href="#消费kafka数据" class="header-anchor">#</a> 消费kafka数据</h2> <p>示例代码如下：</p> <div class="language-python extra-class"><pre class="language-python"><code><span class="token comment">#!/usr/bin/python3.6</span>
+<span class="token comment"># -*- coding: utf-8 -*-</span>
+
+<span class="token keyword">from</span> kafka <span class="token keyword">import</span> KafkaConsumer
+
+
+consumer <span class="token operator">=</span> KafkaConsumer<span class="token punctuation">(</span><span class="token string">&quot;my_topic&quot;</span><span class="token punctuation">,</span>
+                         bootstrap_servers<span class="token operator">=</span><span class="token string">&quot;172.16.100.10:9092&quot;</span><span class="token punctuation">,</span>
+                         group_id<span class="token operator">=</span><span class="token string">'my_consumer_group'</span><span class="token punctuation">,</span>
+                         auto_offset_reset<span class="token operator">=</span><span class="token string">'latest'</span><span class="token punctuation">)</span>
+
+<span class="token keyword">for</span> msg <span class="token keyword">in</span> consumer<span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span>msg<span class="token punctuation">)</span>
+</code></pre></div><p>如果kafka中保存的是字符串或者json格式的数据，那么拿到数据后直接进行处理即可。但是因为我的数据是protobuf格式的，所以还需要下面的步骤对数据进行序列化：</p> <h2 id="处理protobuf格式数据"><a href="#处理protobuf格式数据" class="header-anchor">#</a> 处理protobuf格式数据</h2> <h3 id="安装依赖-2"><a href="#安装依赖-2" class="header-anchor">#</a> 安装依赖</h3> <p>执行下面的命令安装protobuf:</p> <div class="language-bash extra-class"><pre class="language-bash"><code>yum <span class="token parameter variable">-y</span> <span class="token function">install</span> gcc gcc-c++ libstdc++-devel <span class="token function">make</span> build
+<span class="token function">wget</span> https://github.com/protocolbuffers/protobuf/releases/download/v3.11.4/protobuf-all-3.11.4.tar.gz
+<span class="token function">tar</span> zxvf protobuf-3.11.4.tar.gz
+<span class="token builtin class-name">cd</span> protobuf-3.11.4
+./configure
+<span class="token function">make</span>
+<span class="token function">make</span> check
+<span class="token function">make</span> <span class="token function">install</span>
+protoc <span class="token parameter variable">--version</span>
+</code></pre></div><p>执行下面的命令安装<code>protobuf_to_dict</code>，这个模块将pb格式数据转换为字典数据：</p> <div class="language-bash extra-class"><pre class="language-bash"><code>pip3 <span class="token function">install</span> protobuf3-to-dict
+</code></pre></div><p>因为我的使用的是protobuf3，所以这里安装的是对应版本的protobuf，安装这个包的目的是要用<code>protoc</code>命令，根据proto协议数据格式生成对应的python库文件。</p> <h3 id="创建协议文件"><a href="#创建协议文件" class="header-anchor">#</a> 创建协议文件</h3> <p>安装好后，我们需要创建一个协议文件，命名为<code>*.proto</code>，例如:</p> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token comment"># test.proto</span>
+syntax <span class="token operator">=</span> <span class="token string">&quot;proto3&quot;</span><span class="token punctuation">;</span>
+
+message AgentMessage
+<span class="token punctuation">{</span>
+    enum ServerType
+	<span class="token punctuation">{</span>
+    	LINUX <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>	
+    	WINDOWS <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    int64 data_time <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>		
+    string <span class="token function">ip</span> <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span>		
+    int32 mac <span class="token operator">=</span> <span class="token number">3</span><span class="token punctuation">;</span>			
+    int32 kernel_version <span class="token operator">=</span> <span class="token number">4</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>根据这个文件，执行下面的命令，可以生成一个库文件，后面将用这个库文件解析<code>protobuf</code>格式数据：</p> <div class="language-bash extra-class"><pre class="language-bash"><code>protoc <span class="token parameter variable">--python_out</span><span class="token operator">=</span>./ ./test.proto
+</code></pre></div><blockquote><p>生成的文件名为：<code>test_pb2.py</code></p></blockquote> <h3 id="处理pb数据"><a href="#处理pb数据" class="header-anchor">#</a> 处理pb数据</h3> <p>修改上面的消费kafka的数据代码：</p> <div class="language-python extra-class"><pre class="language-python"><code><span class="token comment">#!/usr/bin/python3.6</span>
+<span class="token comment"># -*- coding: utf-8 -*-</span>
+
+<span class="token keyword">from</span> kafka <span class="token keyword">import</span> KafkaConsumer
+<span class="token keyword">from</span> test_pb2 <span class="token keyword">import</span> AgentMessage
+
+<span class="token keyword">from</span> protobuf_to_dict <span class="token keyword">import</span> protobuf_to_dict
+
+agent_msg <span class="token operator">=</span> AgentStrMessage<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+
+consumer <span class="token operator">=</span> KafkaConsumer<span class="token punctuation">(</span><span class="token string">&quot;my_topic&quot;</span><span class="token punctuation">,</span>
+                         bootstrap_servers<span class="token operator">=</span><span class="token string">&quot;172.16.100.10:9092&quot;</span><span class="token punctuation">,</span>
+                         group_id<span class="token operator">=</span><span class="token string">'my_consumer_group'</span><span class="token punctuation">,</span>
+                         auto_offset_reset<span class="token operator">=</span><span class="token string">'latest'</span><span class="token punctuation">)</span>
+
+<span class="token keyword">for</span> msg <span class="token keyword">in</span> consumer<span class="token punctuation">:</span>
+    agent_msg<span class="token punctuation">.</span>ParseFromString<span class="token punctuation">(</span>msg<span class="token punctuation">.</span>value<span class="token punctuation">)</span>
+    data <span class="token operator">=</span> protobuf_to_dict<span class="token punctuation">(</span>agent_msg<span class="token punctuation">)</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span>
+</code></pre></div><blockquote><p>这里<code>msg</code>实际上是一个<code>ConsumerRecord</code>对象，其中的<code>msg.value</code>是实际消息体，<code>bytes</code>类型，其他的是一些如上报时间戳、offset等信息。</p></blockquote> <p>这样就可以将<code>protobuf</code>的数据转换为字典类型的数据了。</p></div></section> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev"><a href="/missionOne/算法/滑动窗口.html" class="prev">
+          滑动窗口算法
+        </a></span> <span class="next"><a href="/missionOne/Python/python协程.html">
+          python协程
+        </a></span></p></div> <div class="comments-wrapper"><!----></div></main></div> <!----></div> <ul class="sub-sidebar sub-sidebar-wrapper" style="width:12rem;" data-v-b57cc07c data-v-7dd95ae2><li class="level-2" data-v-b57cc07c><a href="/missionOne/Python/python3%E4%BB%8Ekafka%E6%B6%88%E8%B4%B9%E5%B9%B6%E5%A4%84%E7%90%86PB%E6%A0%BC%E5%BC%8F%E6%95%B0%E6%8D%AE.html#安装依赖" class="sidebar-link reco-side-安装依赖" data-v-b57cc07c>安装依赖</a></li><li class="level-2" data-v-b57cc07c><a href="/missionOne/Python/python3%E4%BB%8Ekafka%E6%B6%88%E8%B4%B9%E5%B9%B6%E5%A4%84%E7%90%86PB%E6%A0%BC%E5%BC%8F%E6%95%B0%E6%8D%AE.html#消费kafka数据" class="sidebar-link reco-side-消费kafka数据" data-v-b57cc07c>消费kafka数据</a></li><li class="level-2" data-v-b57cc07c><a href="/missionOne/Python/python3%E4%BB%8Ekafka%E6%B6%88%E8%B4%B9%E5%B9%B6%E5%A4%84%E7%90%86PB%E6%A0%BC%E5%BC%8F%E6%95%B0%E6%8D%AE.html#处理protobuf格式数据" class="sidebar-link reco-side-处理protobuf格式数据" data-v-b57cc07c>处理protobuf格式数据</a></li><li class="level-3" data-v-b57cc07c><a href="/missionOne/Python/python3%E4%BB%8Ekafka%E6%B6%88%E8%B4%B9%E5%B9%B6%E5%A4%84%E7%90%86PB%E6%A0%BC%E5%BC%8F%E6%95%B0%E6%8D%AE.html#安装依赖-2" class="sidebar-link reco-side-安装依赖-2" data-v-b57cc07c>安装依赖</a></li><li class="level-3" data-v-b57cc07c><a href="/missionOne/Python/python3%E4%BB%8Ekafka%E6%B6%88%E8%B4%B9%E5%B9%B6%E5%A4%84%E7%90%86PB%E6%A0%BC%E5%BC%8F%E6%95%B0%E6%8D%AE.html#创建协议文件" class="sidebar-link reco-side-创建协议文件" data-v-b57cc07c>创建协议文件</a></li><li class="level-3" data-v-b57cc07c><a href="/missionOne/Python/python3%E4%BB%8Ekafka%E6%B6%88%E8%B4%B9%E5%B9%B6%E5%A4%84%E7%90%86PB%E6%A0%BC%E5%BC%8F%E6%95%B0%E6%8D%AE.html#处理pb数据" class="sidebar-link reco-side-处理pb数据" data-v-b57cc07c>处理pb数据</a></li></ul></div></div></div><div class="global-ui"><div class="back-to-ceiling" style="right:1rem;bottom:6rem;width:2.5rem;height:2.5rem;border-radius:.25rem;line-height:2.5rem;display:none;" data-v-c6073ba8 data-v-c6073ba8><svg t="1574745035067" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5404" class="icon" data-v-c6073ba8><path d="M526.60727968 10.90185116a27.675 27.675 0 0 0-29.21455937 0c-131.36607665 82.28402758-218.69155461 228.01873535-218.69155402 394.07834331a462.20625001 462.20625001 0 0 0 5.36959153 69.94390903c1.00431239 6.55289093-0.34802892 13.13561351-3.76865779 18.80351572-32.63518765 54.11355614-51.75690182 118.55860487-51.7569018 187.94566865a371.06718723 371.06718723 0 0 0 11.50484808 91.98906777c6.53300375 25.50556257 41.68394495 28.14064038 52.69160883 4.22606766 17.37162448-37.73630017 42.14135425-72.50938081 72.80769204-103.21549295 2.18761121 3.04276886 4.15646224 6.24463696 6.40373557 9.22774369a1871.4375 1871.4375 0 0 0 140.04691725 5.34970492 1866.36093723 1866.36093723 0 0 0 140.04691723-5.34970492c2.24727335-2.98310674 4.21612437-6.18497483 6.3937923-9.2178004 30.66633723 30.70611158 55.4360664 65.4791928 72.80769147 103.21549355 11.00766384 23.91457269 46.15860503 21.27949489 52.69160879-4.22606768a371.15156223 371.15156223 0 0 0 11.514792-91.99901164c0-69.36717486-19.13165746-133.82216804-51.75690182-187.92578088-3.42062944-5.66790279-4.76302748-12.26056868-3.76865837-18.80351632a462.20625001 462.20625001 0 0 0 5.36959269-69.943909c-0.00994388-166.08943902-87.32547796-311.81420293-218.6915546-394.09823051zM605.93803103 357.87693858a93.93749974 93.93749974 0 1 1-187.89594924 6.1e-7 93.93749974 93.93749974 0 0 1 187.89594924-6.1e-7z" p-id="5405" data-v-c6073ba8></path><path d="M429.50777625 765.63860547C429.50777625 803.39355007 466.44236686 1000.39046097 512.00932183 1000.39046097c45.56695499 0 82.4922232-197.00623328 82.5015456-234.7518555 0-37.75494459-36.9345906-68.35043303-82.4922232-68.34111062-45.57627738-0.00932239-82.52019037 30.59548842-82.51086798 68.34111062z" p-id="5406" data-v-c6073ba8></path></svg></div><canvas id="vuepress-canvas-cursor"></canvas></div></div>
+    <script src="/missionOne/assets/js/app.d1f3ab04.js" defer></script><script src="/missionOne/assets/js/3.4a4ab4e6.js" defer></script><script src="/missionOne/assets/js/1.6a874a38.js" defer></script><script src="/missionOne/assets/js/16.666cdc7d.js" defer></script>
+  </body>
+</html>
